@@ -1,0 +1,33 @@
+<div class="categoria-box">
+  <button>Cdastrar nova Categoria</button>
+  <div class="input-box">
+    <label>Procurar:</label>
+    <input type="text" placeholder="Qual registro está buscando?" (input)="search($event)">
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Descrição</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let category of categories">
+    <tr>
+      <td>{{ category.idCategory }}</td>
+      <td>{{ category.description }}</td>
+
+      <td>
+        <button>Editar</button>
+        <button>Detalhes</button>
+      </td>
+      <td>
+        <button>Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
