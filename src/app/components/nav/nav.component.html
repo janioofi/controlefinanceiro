@@ -1,0 +1,23 @@
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side">
+    <mat-nav-list class="nav-list">
+      <a mat-list-item routerLink="payments">
+        <p><i class="material-icons">payments</i>Dashboard</p>
+      </a>
+      <a mat-list-item routerLink="users">
+        <p><i class="material-icons">account_circle</i>{{ login }}</p>
+      </a>
+
+      <a mat-list-item (click)="logout()">
+        <p><i class="material-icons">logout</i>Logout</p>
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <button class="menu mat-elevation-z8" (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>
