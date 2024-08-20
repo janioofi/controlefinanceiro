@@ -1,66 +1,103 @@
-.container{
-  margin: 2.4rem auto;
-	width: 80%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+/* Contêiner principal com margem */
+.main-container {
+  margin: 4rem;
 }
 
-.card{
-  max-width: 400px;
+/* Contêiner geral dos filtros e cards */
+.filters-container {
+  margin-bottom: 2rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center; /* Alinha os filtros e total ao centro */
 }
 
-.responsive-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 24px;
+/* Linha para os filtros de período */
+.periodo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center; /* Alinha os filtros de período ao centro */
 }
 
-.value{
-  width: 100%;
-  height: 5rem;
+/* Linha para os filtros adicionais */
+.additional-filters {
   display: flex;
-  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center; /* Alinha os filtros adicionais ao centro */
+}
+
+/* Largura dos filtros de data */
+.date-filter {
+  width: 12rem; /* Reduz a largura dos filtros de data */
+}
+
+/* Largura dos filtros adicionais */
+.small-filter {
+  width: 10rem; /* Reduz a largura dos filtros adicionais */
+}
+
+/* Ajuste o tamanho da fonte e altura dos filtros */
+mat-form-field {
+  font-size: 0.875rem; /* Diminui o tamanho da fonte */
+}
+
+input.mat-input-element {
+  font-size: 0.875rem; /* Diminui o tamanho da fonte dos inputs */
+}
+
+button.mat-raised-button {
+  font-size: 0.875rem; /* Diminui o tamanho da fonte do botão */
+}
+
+/* Total de Pagamentos */
+.total {
+  margin-top: 1rem;
+  text-align: center; /* Alinha o texto ao centro */
+}
+
+/* Contêiner dos cards */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem; /* Espaçamento entre os cards */
+  justify-content: center; /* Alinha os cards ao centro */
+  margin-left: auto; /* Remove margem lateral esquerda */
+  margin-right: auto; /* Remove margem lateral direita */
+}
+
+/* Estilos para os cards */
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem; /* Ajusta o padding para melhor distribuição do conteúdo */
+  width: 15rem; /* Reduz a largura dos cards */
+  height: 20rem; /* Reduz a altura dos cards */
+  display: flex;
+  flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 2rem auto;
-  color: white;
-  border-radius: 10px;
-  background-color: #262a41b6;
 }
 
-.value h1{
-  margin: 0;
-  padding: 0;
-}
-
-.create {
-  width: 100%;
-  height: 90%;
+.add-card {
+  background-color: #e0f7fa;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
-}
-
-.create button{
-  display: flex;
-  color: white;
   justify-content: center;
-  align-items: center;
-  width: 5rem;
-  height: 5rem;
   cursor: pointer;
-  background-color: #262a41b6;
-  transition: all 200ms step-start;
 }
 
-.create button:hover{
-  background-color: #262a41fd;
-  transition: background-color .2s ease;
-  width: 5.2rem;
-  height: 5.2rem;
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1; /* Garante que o conteúdo se expanda conforme necessário */
+}
+
+.card-actions button{
+  margin: 0 .3rem;
 }

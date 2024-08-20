@@ -1,26 +1,76 @@
-<div class="container responsive-grid">
-  <div class="create">
-    <button mat-icon-button>
-      <mat-icon>add</mat-icon>
-    </button>
+<div class="main-container">
+  <!-- Filtros de Período -->
+  <div class="filters-container">
+    <div class="periodo">
+      <mat-form-field appearance="outline" color="primary" class="date-filter">
+        <mat-label>Data Início</mat-label>
+        <input matInput [matDatepicker]="startPicker" [(ngModel)]="initialDate" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="primary" class="date-filter">
+        <mat-label>Data Final</mat-label>
+        <input matInput [matDatepicker]="endPicker" [(ngModel)]="finalDate" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="applyFilters()">Aplicar</button>
+    </div>
+
+    <div class="additional-filters">
+      <mat-form-field appearance="outline" color="primary" class="small-filter">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="selectedStatus">
+          <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="primary" class="small-filter">
+        <mat-label>Categoria</mat-label>
+        <mat-select [(ngModel)]="selectedCategory">
+          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="primary" class="small-filter">
+        <mat-label>Método de Pagamento</mat-label>
+        <mat-select [(ngModel)]="selectedPaymentMethod">
+          <mat-option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="total">
+      <span>Total: {{ totalAmount | currency }}</span>
+    </div>
   </div>
-  <mat-card class="card" ppearance="outlined" *ngFor="let data of ELEMENT_DATA">
-    <mat-card-header>
-      <mat-card-title>{{data.description}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>Categoria: {{data.category}}</p>
-      <p>Valor: R$ {{data.value}}</p>
-      <p>Forma de Pagamento: {{data.paymentMethod}}</p>
-      <p>Data: {{data.paymentDate}}</p>
-      <p>Status: {{data.status}}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button color="primary">Editar</button>
-      <button mat-button color="warn">Deletar</button>
-    </mat-card-actions>
-  </mat-card>
-  <div class="value">
-    <h1>Valor total: R$ {{totalValue}}</h1>
+
+  <!-- Cards de Pagamentos -->
+  <div class="cards-container">
+    <div class="card add-card" routerLink="/create">
+      <mat-icon>add</mat-icon>
+      <span>Adicionar Pagamento</span>
+    </div>
+
+    <div class="card" *ngFor="let payment of filteredData">
+      <div class="card-content">
+        <div class="card-header">
+          <span>{{ payment.description }}</span>
+        </div>
+        <div class="card-body">
+          <p>Valor: {{ payment.value | currency }}</p>
+          <p>Categoria: {{ payment.category }}</p>
+          <p>Status: {{ payment.status }}</p>
+          <p>Data: {{ payment.paymentDate | date:'dd/MM/yyyy' }}</p>
+          <p>Método: {{ payment.paymentMethod }}</p>
+        </div>
+        <div class="card-actions">
+          <button mat-raised-button >Editar</button>
+          <button mat-raised-button color="warn" (click)="removePayment(payment.idPayment)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

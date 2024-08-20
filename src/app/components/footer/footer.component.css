@@ -1,26 +1,24 @@
-:host {
-  display: block;
-}
-
 .footer {
-  position: fixed; /* Fixa o footer na parte inferior da página */
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #f7f7f73f; /* Cor de fundo do footer */
+  background-color: #333;
+  color: white;
   text-align: center;
-  padding: 1px;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Opcional: sombra para destacar o footer */
-  z-index: 10; /* Coloca o footer por cima dos elementos com class="container" */
+  padding: 10px;
 }
 
-a{
-  text-decoration: none;
-  color: black;
-  font-weight: bolder;
-}
-
-p{
+.footer p{
   margin: 0;
   padding: 0;
+}
+
+.footer a {
+  color: #ff9800;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }

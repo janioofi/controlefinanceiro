@@ -35,8 +35,8 @@ export class PaymentService {
 
   findPeriod(initialDate: string, finalDate: string){
     let params = new HttpParams()
-    .set('data_inicio', initialDate)
-    .set('data_final', finalDate);
-    return this.http.get<Payment[]>(`${this.url}`, {params});
+    .set('initialDate', initialDate)
+    .set('finalDate', finalDate);
+    return this.http.get<Payment[]>(`${this.url}/period`, {params});
   }
 }

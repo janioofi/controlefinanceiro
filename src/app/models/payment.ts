@@ -1,7 +1,7 @@
 export interface Payment{
   idPayment?: any,
   description: string;
-  value: string,
+  value: number,
   category: string,
   status: string,
   paymentDate: string,

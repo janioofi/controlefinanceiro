@@ -1,24 +1,36 @@
-<div class="container">
-  <form class="form mat-elevation-z8">
-    <img src="assets/img/login.svg" alt="Help Desk - &#64;janioofi">
-    <mat-form-field color="primary" class="full-width">
-      <mat-label>E-mail</mat-label>
-      <input color="primary" [formControl]="email" required="" [(ngModel)]="login.email" name="email" matInput
-        placeholder="Ex. usurario@cliente.com">
-    </mat-form-field>
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-5 mt-md-4">
+              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+              <p class="text-white-50 mb-5">Por favor, entre com seu e-mail e senha!</p>
 
-    <mat-form-field color="primary" class="full-width">
-      <mat-label>Senha</mat-label>
-      <input [formControl]="password" required [(ngModel)]="login.password" name="password" type="password" matInput
-        placeholder="Ex. 12345">
-    </mat-form-field>
-    <div class="buttons">
-      <button (click)="logar()" [disabled]="!validaCampos()" color="primary" mat-raised-button
-        class="full-width mat-elevation-z4">Logar
-      </button>
-      <button (click)="registrar()" [disabled]="!validaCampos()" color="primary" mat-raised-button
-        class="full-width mat-elevation-z4">Registrar
-      </button>
+              <div data-mdb-input-init class="form-outline form-white mb-4">
+                <input [formControl]="email" required="" [(ngModel)]="login.email" type="email" id="email"
+                  class="form-control form-control-lg" />
+                <label class="form-label" for="email">Email</label>
+              </div>
+
+              <div data-mdb-input-init class="form-outline form-white mb-4">
+                <input [formControl]="password" required [(ngModel)]="login.password" type="password" id="password"
+                  class="form-control form-control-lg" />
+                <label class="form-label" for="password">Senha</label>
+              </div>
+
+              <div class="buttons">
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg"
+                  [disabled]="!validaCampos()" (click)="logar()" type="submit">Logar</button>
+
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg"
+                  [disabled]="!validaCampos()" (click)="registrar()" type="submit">Registrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </form>
-</div>
+  </div>
+</section>

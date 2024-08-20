@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { FooterComponent } from "../footer/footer.component";
 @Component({
   selector: 'app-nav',
   standalone: true,
@@ -16,13 +17,19 @@ import { ToastrService } from 'ngx-toastr';
     MatListModule,
     RouterOutlet,
     RouterLink,
-  ],
+    FooterComponent
+],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit{
 
   login: String = localStorage.getItem('email')
+
+  isSidenavOpened = true;
+  toggleSidenav() {
+    this.isSidenavOpened = !this.isSidenavOpened;
+  }
 
   constructor(
     private router: Router,
