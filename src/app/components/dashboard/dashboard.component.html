@@ -1,5 +1,5 @@
 <div class="main-container">
-  <!-- Filtros de Período -->
+  <!-- Filtros de Período e Valor Total -->
   <div class="filters-container">
     <div class="periodo">
       <mat-form-field appearance="outline" color="primary" class="date-filter">
@@ -16,34 +16,34 @@
         <mat-datepicker #endPicker></mat-datepicker>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="applyFilters()">Aplicar</button>
+      <button mat-raised-button color="primary" class="btn" (click)="applyFilters()">Aplicar</button>
+    </div>
+
+    <div class="total">
+      <span>Total: {{ totalAmount | currency }}</span>
     </div>
 
     <div class="additional-filters">
       <mat-form-field appearance="outline" color="primary" class="small-filter">
         <mat-label>Status</mat-label>
         <mat-select [(ngModel)]="selectedStatus">
-          <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+          <mat-option *ngFor="let status of statuses" [value]="status.value">{{ status.label }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" color="primary" class="small-filter">
         <mat-label>Categoria</mat-label>
         <mat-select [(ngModel)]="selectedCategory">
-          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" color="primary" class="small-filter">
-        <mat-label>Método de Pagamento</mat-label>
+        <mat-label>Método</mat-label>
         <mat-select [(ngModel)]="selectedPaymentMethod">
-          <mat-option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</mat-option>
+          <mat-option *ngFor="let method of paymentMethods" [value]="method.value">{{ method.label }}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
-
-    <div class="total">
-      <span>Total: {{ totalAmount | currency }}</span>
     </div>
   </div>
 
@@ -57,17 +57,17 @@
     <div class="card" *ngFor="let payment of filteredData">
       <div class="card-content">
         <div class="card-header">
-          <span>{{ payment.description }}</span>
+          <span>{{ payment.category }}</span>
         </div>
         <div class="card-body">
+          <p>Descrição: {{ payment.description }}</p>
           <p>Valor: {{ payment.value | currency }}</p>
-          <p>Categoria: {{ payment.category }}</p>
           <p>Status: {{ payment.status }}</p>
           <p>Data: {{ payment.paymentDate | date:'dd/MM/yyyy' }}</p>
           <p>Método: {{ payment.paymentMethod }}</p>
         </div>
         <div class="card-actions">
-          <button mat-raised-button >Editar</button>
+          <button mat-raised-button>Editar</button>
           <button mat-raised-button color="warn" (click)="removePayment(payment.idPayment)">Excluir</button>
         </div>
       </div>

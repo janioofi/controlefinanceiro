@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { Router, RouterLink } from '@angular/router'; // Importar RouterLink
 import { MatButtonModule } from '@angular/material/button'; // Importar MatButtonModule
 import { MatDatepickerModule } from '@angular/material/datepicker'; // Importar MatDatepickerModule
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core'; // Importar MatNativeDateModule
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core'; // Importar MatNativeDateModule
 import { MatFormFieldModule } from '@angular/material/form-field'; // Importar MatFormFieldModule
 import { MatInputModule } from '@angular/material/input'; // Importar MatInputModule
 import { MatSelectModule } from '@angular/material/select'; // Importar MatSelectModule
@@ -13,6 +13,7 @@ import { PaymentService } from '../../services/payment.service'; // Importar Pay
 import { Payment } from '../../models/payment'; // Importar Payment
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,8 +29,9 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
     MatSelectModule,
     MatIconModule,
     RouterLink,
-    MatDialogModule
-  ],
+    MatDialogModule,
+    FooterComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   providers: [
@@ -45,6 +47,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
         dateInput: 'DD/MM/YYYY',
       },
     }},
+    provideNativeDateAdapter()
   ],
 })
 export class DashboardComponent implements OnInit {
@@ -53,9 +56,27 @@ export class DashboardComponent implements OnInit {
   selectedStatus: string | null = null;
   selectedCategory: string | null = null;
   selectedPaymentMethod: string | null = null;
-  statuses = ['Pendente', 'Aprovado', 'Cancelado'];
-  categories = ['Lazer', 'Estudos', 'Alimentação', 'Moradia', 'Transporte', 'Viagens', 'Saúde'];
-  paymentMethods = ['Dinheiro', 'Pix', 'Cartão de débito', 'Cartão de crédito'];
+
+  statuses = [
+    { value: 'PENDING', label: 'Pendente' },
+    { value: 'APPROVED', label: 'Aprovado' },
+    { value: 'CANCELED', label: 'Cancelado' }
+  ];
+  categories = [
+    { value: 'LEISURE', label: 'Lazer' },
+    { value: 'STUDIES', label: 'Estudos' },
+    { value: 'FOOD', label: 'Alimentação' },
+    { value: 'HOUSING', label: 'Moradia' },
+    { value: 'TRANSPORT', label: 'Transporte' },
+    { value: 'TRIPS', label: 'Viagens' },
+    { value: 'HEALTH', label: 'Saúde' }
+  ];
+  paymentMethods = [
+    { value: 'MONEY', label: 'Dinheiro' },
+    { value: 'PIX', label: 'Pix' },
+    { value: 'DEBIT_CARD', label: 'Cartão de débito' },
+    { value: 'CRED_CARD', label: 'Cartão de crédito' }
+  ];
   filteredData: Payment[] = [];
   totalAmount: number = 0;
 

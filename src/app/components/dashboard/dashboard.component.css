@@ -1,80 +1,106 @@
 /* Contêiner principal com margem */
 .main-container {
-  margin: 4rem;
+  margin: 2rem 4rem 4rem;
 }
 
 /* Contêiner geral dos filtros e cards */
 .filters-container {
-  margin-bottom: 2rem;
   display: flex;
-  flex-direction: column;
-  align-items: center; /* Alinha os filtros e total ao centro */
+  flex-direction: column; /* Coloca filtros e cards em coluna em dispositivos móveis */
+  align-items: stretch; /* Estica filtros para ocupar toda a largura disponível */
+  margin-bottom: 1rem; /* Espaçamento inferior entre filtros e cards */
 }
 
 /* Linha para os filtros de período */
 .periodo {
   display: flex;
+  flex-direction: column; /* Coloca os filtros de data em coluna em dispositivos móveis */
   gap: 1rem;
-  margin-bottom: 1rem;
-  justify-content: center; /* Alinha os filtros de período ao centro */
+  margin-bottom: 1rem; /* Adiciona espaçamento inferior para filtros de período */
+}
+
+/* Estilo do botão */
+.btn {
+  width: 100%; /* Faz o botão ocupar toda a largura disponível */
+  height: 3rem;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilo para o valor total */
+.total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 3rem;
+  width: 100%; /* Faz o valor total ocupar toda a largura disponível */
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: white;
+  background-color: #262a41;
+  border-radius: 8px;
+  margin: 0 0 1rem 0; /* Margem inferior ajustada */
 }
 
 /* Linha para os filtros adicionais */
 .additional-filters {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  justify-content: center; /* Alinha os filtros adicionais ao centro */
+  flex-direction: column; /* Coloca os filtros adicionais em coluna em dispositivos móveis */
+  align-items: stretch; /* Estica filtros adicionais para ocupar toda a largura disponível */
+  gap: 1rem; /* Espaçamento entre os filtros adicionais */
 }
 
 /* Largura dos filtros de data */
 .date-filter {
-  width: 12rem; /* Reduz a largura dos filtros de data */
+  width: 100%; /* Faz os filtros de data ocupar toda a largura disponível */
+  height: 3rem;
 }
 
 /* Largura dos filtros adicionais */
 .small-filter {
-  width: 10rem; /* Reduz a largura dos filtros adicionais */
+  width: 100%; /* Faz os filtros adicionais ocupar toda a largura disponível */
+  height: 3rem;
 }
 
 /* Ajuste o tamanho da fonte e altura dos filtros */
 mat-form-field {
-  font-size: 0.875rem; /* Diminui o tamanho da fonte */
+  font-size: 0.75rem;
 }
 
 input.mat-input-element {
-  font-size: 0.875rem; /* Diminui o tamanho da fonte dos inputs */
+  font-size: 0.75rem;
 }
 
 button.mat-raised-button {
-  font-size: 0.875rem; /* Diminui o tamanho da fonte do botão */
-}
-
-/* Total de Pagamentos */
-.total {
-  margin-top: 1rem;
-  text-align: center; /* Alinha o texto ao centro */
+  font-size: 0.75rem;
 }
 
 /* Contêiner dos cards */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem; /* Espaçamento entre os cards */
-  justify-content: center; /* Alinha os cards ao centro */
-  margin-left: auto; /* Remove margem lateral esquerda */
-  margin-right: auto; /* Remove margem lateral direita */
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 /* Estilos para os cards */
 .card {
-  background-color: #fff;
+  background-color: #262a41b4;
+  color: white;
   border: 1px solid #ddd;
   border-radius: 8px;
+  margin-bottom: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0.75rem; /* Ajusta o padding para melhor distribuição do conteúdo */
-  width: 15rem; /* Reduz a largura dos cards */
-  height: 20rem; /* Reduz a altura dos cards */
+  padding: 0.75rem;
+  width: 15rem;
+  height: 20rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +108,7 @@ button.mat-raised-button {
 }
 
 .add-card {
-  background-color: #e0f7fa;
+  background-color: #262a4183;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,9 +121,59 @@ button.mat-raised-button {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  flex: 1; /* Garante que o conteúdo se expanda conforme necessário */
+  flex: 1;
 }
 
-.card-actions button{
-  margin: 0 .3rem;
+.card-actions button {
+  margin: 0 0.3rem;
+}
+
+/* Ajustes para telas de computador */
+@media (min-width: 769px) {
+  .filters-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; /* Alinha os itens verticalmente no centro */
+    margin-bottom: 1rem; /* Espaçamento adequado entre filtros e cards */
+  }
+
+  .periodo {
+    margin-bottom: 0; /* Remove margem inferior para evitar espaçamento excessivo */
+  }
+
+  .total {
+    margin: 0 1rem;
+    flex: 1 1 auto; /* Permite que o total ocupe o espaço disponível */
+  }
+
+  .additional-filters {
+    margin-bottom: 0; /* Remove margem inferior para evitar espaçamento excessivo */
+  }
+}
+
+/* Ajustes adicionais para telas muito pequenas */
+@media (max-width: 480px) {
+  .filters-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .periodo,
+  .additional-filters {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 1rem; /* Adiciona espaçamento entre as seções de filtro */
+  }
+
+  .date-filter,
+  .small-filter,
+  .periodo button {
+    width: 100%; /* Ocupa 100% da largura disponível */
+    margin-bottom: 0.5rem;
+  }
+
+  .total {
+    margin: 1rem 0; /* Margem superior e inferior ajustadas para telas pequenas */
+    width: auto; /* Largura automática para telas pequenas */
+  }
 }
