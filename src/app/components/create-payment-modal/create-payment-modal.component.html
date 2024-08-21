@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h4 class="modal-title">Adicionar Novo Pagamento</h4>
+</div>
+<div class="modal-body">
+  <form #paymentForm="ngForm" (ngSubmit)="savePayment(paymentForm)" novalidate>
+    <div class="form-group">
+      <label for="description">Descrição</label>
+      <input type="text" id="description" [(ngModel)]="newPayment.description" name="description" class="form-control"
+        required #description="ngModel">
+      <div *ngIf="description.invalid && description.touched" class="text-danger">
+        A descrição é obrigatória.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="paymentDate">Data de Pagamento</label>
+      <input type="date" id="paymentDate" [(ngModel)]="newPayment.paymentDate" name="paymentDate" class="form-control"
+        required #paymentDate="ngModel">
+      <div *ngIf="paymentDate.invalid && paymentDate.touched" class="text-danger">
+        A data de pagamento é obrigatória.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="value">Valor</label>
+      <input type="number" id="value" [(ngModel)]="newPayment.value" name="value" class="form-control" required
+        #value="ngModel">
+      <div *ngIf="value.invalid && value.touched" class="text-danger">
+        O valor é obrigatório.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category">Categoria</label>
+      <select id="category" [(ngModel)]="newPayment.category" name="category" class="form-control" required
+        #category="ngModel">
+        <option value="" disabled>Selecione uma categoria</option>
+        <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+      </select>
+      <div *ngIf="category.invalid && category.touched" class="text-danger">
+        A categoria é obrigatória.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="paymentMethod">Método de Pagamento</label>
+      <select id="paymentMethod" [(ngModel)]="newPayment.paymentMethod" name="paymentMethod" class="form-control"
+        required #paymentMethod="ngModel">
+        <option value="" disabled>Selecione um método</option>
+        <option *ngFor="let method of paymentMethods" [value]="method.value">{{ method.label }}</option>
+      </select>
+      <div *ngIf="paymentMethod.invalid && paymentMethod.touched" class="text-danger">
+        O método de pagamento é obrigatório.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" [(ngModel)]="newPayment.status" name="status" class="form-control" required #status="ngModel">
+        <option value="" disabled>Selecione um status</option>
+        <option *ngFor="let statusOption of statuses" [value]="statusOption.value">{{ statusOption.label }}</option>
+      </select>
+      <div *ngIf="status.invalid && status.touched" class="text-danger">
+        O status é obrigatório.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Fechar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="paymentForm.invalid">Salvar</button>
+    </div>
+  </form>
+</div>

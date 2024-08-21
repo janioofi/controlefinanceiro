@@ -1,24 +1,25 @@
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #262a41;
+footer {
+  font-size: 0.9rem; /* Tamanho menor para o texto */
+  padding: 0.5rem 0; /* Reduz a altura do footer */
+}
+
+footer h6 {
+  font-size: 1rem; /* Tamanho menor para os títulos */
+  margin-bottom: 0.5rem; /* Menor espaço abaixo dos títulos */
+}
+
+footer p {
+  margin-bottom: 0.2rem; /* Menor espaço entre as linhas de texto */
+}
+
+footer i {
+  font-size: 1.2rem; /* Tamanho ajustado dos ícones */
+}
+
+footer a {
   color: white;
-  text-align: center;
-  padding: 10px;
 }
 
-.footer p{
-  margin: 0;
-  padding: 0;
-}
-
-.footer a {
-  color: #ff9800;
-  text-decoration: none;
-}
-
-.footer a:hover {
-  text-decoration: underline;
+footer a:hover {
+  color: #dcdcdc; /* Cor mais clara ao passar o mouse */
 }

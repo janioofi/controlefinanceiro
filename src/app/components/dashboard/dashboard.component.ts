@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { Payment } from '../../models/payment';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CreatePaymentModalComponent } from '../create-payment-modal/create-payment-modal.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
-  ],
+    FormsModule,
+    CreatePaymentModalComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+
+  @ViewChild('addPaymentModal', { static: false }) addPaymentModal!: TemplateRef<any>;
 
   initialDate: string = this.formatDate(new Date());
   finalDate: string = this.formatDate(new Date());
@@ -25,17 +30,36 @@ export class DashboardComponent implements OnInit {
   selectedCategory: string = 'Todos';
   selectedPaymentMethod: string = 'Todos';
 
-  statuses = ['Todos', 'Pendente', 'Aprovado', 'Cancelado'];
-  categories = ['Todos', 'Lazer', 'Estudos', 'Alimentação', 'Moradia', 'Transporte', 'Viagens', 'Saúde'];
-  paymentMethods = ['Todos', 'Dinheiro', 'Pix', 'Cartão de débito', 'Cartão de crédito'];
-
-
+  statuses = [
+    { value: 'PENDING', label: 'Pendente' },
+    { value: 'APPROVED', label: 'Aprovado' },
+    { value: 'CANCELED', label: 'Cancelado' }
+  ];
+  categories = [
+    { value: 'LEISURE', label: 'Lazer' },
+    { value: 'STUDIES', label: 'Estudos' },
+    { value: 'FOOD', label: 'Alimentação' },
+    { value: 'HOUSING', label: 'Moradia' },
+    { value: 'TRANSPORT', label: 'Transporte' },
+    { value: 'TRIPS', label: 'Viagens' },
+    { value: 'HEALTH', label: 'Saúde' }
+  ];
+  paymentMethods = [
+    { value: 'MONEY', label: 'Dinheiro' },
+    { value: 'PIX', label: 'Pix' },
+    { value: 'DEBIT_CARD', label: 'Cartão de débito' },
+    { value: 'CRED_CARD', label: 'Cartão de crédito' }
+  ];
 
   allData: Payment[] = [];
   filteredData: Payment[] = [];
   totalAmount: number = 0;
 
-  constructor(private paymentService: PaymentService, private router: Router, private modalService: NgbModal) { }
+  constructor(
+    private paymentService: PaymentService,
+    private router: Router,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.loadDefaultData();
@@ -51,29 +75,20 @@ export class DashboardComponent implements OnInit {
   applyCategoryStatusPaymentFilters() {
     let filtered = this.allData;
 
-    // Aplique os filtros e verifique o resultado em cada etapa
+    // Aplicando filtros
     if (this.selectedCategory !== 'Todos') {
-      filtered = filtered.filter(payment => {
-        const match = payment.category === this.selectedCategory;
-        return match;
-      });
+      filtered = filtered.filter(payment => payment.category === this.selectedCategory);
     }
 
     if (this.selectedStatus !== 'Todos') {
-      filtered = filtered.filter(payment => {
-        const match = payment.status === this.selectedStatus;
-        return match;
-      });
+      filtered = filtered.filter(payment => payment.status === this.selectedStatus);
     }
 
     if (this.selectedPaymentMethod !== 'Todos') {
-      filtered = filtered.filter(payment => {
-        const match = payment.paymentMethod === this.selectedPaymentMethod;
-        return match;
-      });
+      filtered = filtered.filter(payment => payment.paymentMethod === this.selectedPaymentMethod);
     }
 
-    // Atualize os dados filtrados e calcule o total
+    // Atualizando dados filtrados e calculando total
     this.filteredData = filtered;
     this.calculateTotalAmount();
   }
@@ -112,30 +127,40 @@ export class DashboardComponent implements OnInit {
     this.applyCategoryStatusPaymentFilters();
   }
 
-  // Adicionando o método para abrir o diálogo de criação
-  openCreatePaymentDialog(): void {
-    // Lógica para abrir um modal ou diálogo
-    const modalRef = this.modalService.open(CreatePaymentDialogComponent);
-    modalRef.result.then((result) => {
-      // Lógica para lidar com o resultado do modal
-    }).catch((error) => {
-      // Lógica para lidar com o erro do modal
-    });
-  }
+  openCreatePaymentModal() {
+    const modalRef = this.modalService.open(CreatePaymentModalComponent);
+    modalRef.componentInstance.categories = this.categories;
+    modalRef.componentInstance.paymentMethods = this.paymentMethods;
+    modalRef.componentInstance.statuses = this.statuses;
 
-  confirmDelete(id: number): void {
-    const modalRef = this.modalService.open(ConfirmDialogComponent);
     modalRef.result.then((result) => {
-      if (result === 'confirm') {
-        this.deletePayment(id);
+      if (result === 'save') {
+        this.applyFilters();
       }
+      this.applyFilters();
     }).catch((error) => {
-      // Lógica para lidar com o erro do modal
+      this.applyFilters();
     });
   }
 
-  deletePayment(id: number): void {
-    this.paymentService.delete(id).subscribe(() => {
+  openConfirmDialog(paymentId: number) {
+    const modalRef = this.modalService.open(ConfirmDialogComponent);
+    modalRef.componentInstance.message = 'Tem certeza de que deseja excluir este pagamento?';
+
+    modalRef.result.then(
+      (result) => {
+        if (result === 'confirm') {
+          this.deletePayment(paymentId);
+        }
+      },
+      (reason) => {
+        console.log('Cancelado', reason);
+      }
+    );
+  }
+
+  deletePayment(paymentId: number) {
+    this.paymentService.delete(paymentId).subscribe(() => {
       this.applyFilters();
     });
   }
@@ -161,7 +186,8 @@ export class DashboardComponent implements OnInit {
   }
 
   onDateChange() {
-    this.initialDate = (<HTMLInputElement>document.getElementById('startDate'))?.value || '';
-    this.finalDate = (<HTMLInputElement>document.getElementById('endDate'))?.value || '';
+    this.initialDate = (document.getElementById('startDate') as HTMLInputElement)?.value || '';
+    this.finalDate = (document.getElementById('endDate') as HTMLInputElement)?.value || '';
+    this.applyFilters(); // Reaplica os filtros ao alterar as datas
   }
 }

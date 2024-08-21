@@ -30,8 +30,8 @@
       <div class="form-group">
         <label for="category">Categoria</label>
         <select id="category" [(ngModel)]="selectedCategory" (change)="onCategoryChange()" class="form-control">
-          <option value="">Todos</option>
-          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          <option value="Todos">Todos</option>
+          <option *ngFor="let cat of categories" [value]="cat.label">{{ cat.label }}</option>
         </select>
       </div>
     </div>
@@ -39,8 +39,8 @@
       <div class="form-group">
         <label for="status">Status</label>
         <select id="status" [(ngModel)]="selectedStatus" (change)="onStatusChange()" class="form-control">
-          <option value="">Todos</option>
-          <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+          <option value="Todos">Todos</option>
+          <option *ngFor="let status of statuses" [value]="status.label">{{ status.label }}</option>
         </select>
       </div>
     </div>
@@ -48,8 +48,8 @@
       <div class="form-group">
         <label for="paymentMethod">Método de Pagamento</label>
         <select id="paymentMethod" [(ngModel)]="selectedPaymentMethod" (change)="onPaymentMethodChange()" class="form-control">
-          <option value="">Todos</option>
-          <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
+          <option value="Todos">Todos</option>
+          <option *ngFor="let method of paymentMethods" [value]="method.label">{{ method.label }}</option>
         </select>
       </div>
     </div>
@@ -59,11 +59,10 @@
   <div class="row">
     <!-- Card para adicionar novo pagamento -->
     <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-      <div class="card add-payment-card text-center">
-        <div class="card-body">
-          <button class="btn btn-success" (click)="openCreatePaymentDialog()">
-            <i class="bi bi-plus-circle"></i> Adicionar Pagamento
-          </button>
+      <div class="card add-payment-card" (click)="openCreatePaymentModal()">
+        <div class="card-body text-center">
+          <h5 class="card-title"><i class="bi bi-plus-circle"></i></h5>
+          <p class="card-text">Adicionar Novo Pagamento</p>
         </div>
       </div>
     </div>
@@ -79,9 +78,12 @@
           <p class="card-text">Valor: {{ pagamento.value | currency:'BRL' }}</p>
           <p class="card-text">Status: {{ pagamento.status }}</p>
           <button class="btn btn-primary me-2" (click)="editPayment(pagamento.idPayment)">Editar</button>
-          <button class="btn btn-danger" (click)="confirmDelete(pagamento.idPayment)">Excluir</button>
+          <button class="btn btn-danger" (click)="openConfirmDialog(pagamento.idPayment)">Excluir</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #addPaymentModal let-modal>
+</ng-template>

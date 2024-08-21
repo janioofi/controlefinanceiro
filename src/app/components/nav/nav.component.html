@@ -2,13 +2,13 @@
   <mat-sidenav #sidenav mode="side" [opened]="isSidenavOpened">
     <mat-nav-list>
       <a mat-list-item routerLink="/dashboard">
-        <p>Dashboard</p>
+        <p><i class="bi bi-house-door"></i> Dashboard</p>
       </a>
       <a mat-list-item routerLink="/usuario">
-        <p>Usuário</p>
+        <p><i class="bi bi-person"></i> Usuário</p>
       </a>
       <a mat-list-item (click)="logout()">
-        <p>Logout</p>
+        <p><i class="bi bi-box-arrow-right"></i> Logout</p>
       </a>
     </mat-nav-list>
   </mat-sidenav>

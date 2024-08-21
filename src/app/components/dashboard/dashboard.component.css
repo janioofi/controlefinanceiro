@@ -10,10 +10,6 @@
   text-align: right; /* Alinha o texto à direita */
 }
 
-.total-amount {
-  text-align: right; /* Alinha o texto à direita */
-}
-
 .card {
   margin-bottom: 1rem;
   max-width: 100%;
@@ -21,25 +17,21 @@
 }
 
 .add-payment-card {
-  border: 2px dashed #28a745; /* Cor da borda do card */
-  background-color: #f9f9f9; /* Cor de fundo do card */
+  cursor: pointer;
+  border: 2px dashed #007bff; /* Estilo de borda para o card de adicionar */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .add-payment-card .card-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  padding: 2rem;
 }
 
-.add-payment-card .btn-success {
-  font-size: 1.25rem;
-  padding: 0.75rem 1.5rem;
-}
-
-.bi-plus-circle {
-  font-size: 1.5rem; /* Tamanho do ícone */
-  margin-right: 0.5rem; /* Espaço entre ícone e texto */
+.add-payment-card i {
+  font-size: 2rem;
+  color: #007bff; /* Cor do ícone */
 }
 
 @media (min-width: 576px) {

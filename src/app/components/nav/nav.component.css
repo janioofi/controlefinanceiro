@@ -3,16 +3,33 @@
 }
 
 mat-sidenav {
-  width: 10rem;
+  width: 12rem; /* Ajuste conforme necessário */
   background-color: #262a41;
 }
 
-p{
+mat-nav-list a {
   display: flex;
-  color: white;
   align-items: center;
-  text-align: center;
+  padding: 1rem; /* Espaçamento interno dos itens do menu */
+  color: white;
+  font-size: 1.1rem; /* Tamanho da fonte */
+  text-decoration: none; /* Remove o sublinhado dos links */
+}
+
+mat-nav-list a:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Cor ao passar o mouse */
+}
+
+p {
+  display: flex;
+  align-items: center;
   margin: 0;
+  padding: 0;
+}
+
+p i{
+
+  margin-right: .6rem;
 }
 
 button mat-icon {
@@ -22,13 +39,12 @@ button mat-icon {
 button {
   z-index: 1000;
   background-color: #262a418f;
-  border: none; /* Remove qualquer borda padrão */
+  border: none;
   margin: 1rem;
-  border-radius: 50%; /* Opcional: arredonda as bordas do botão */
+  border-radius: 50%;
   position: fixed;
 }
 
 button:hover {
-  background-color: rgba(38, 42, 65, 0.1); /* Opção de cor ao passar o mouse */
+  background-color: rgba(38, 42, 65, 0.1);
 }
-
