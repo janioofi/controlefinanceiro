@@ -5,6 +5,5 @@ export interface Payment{
   category: string,
   status: string,
   paymentDate: string,
-  paymentMethod: string,
-  user: string
+  paymentMethod: string
 }

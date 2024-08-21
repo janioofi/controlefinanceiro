@@ -1,140 +1,167 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Importar FormsModule
-import { CommonModule } from '@angular/common'; // Importar CommonModule
-import { Router, RouterLink } from '@angular/router'; // Importar RouterLink
-import { MatButtonModule } from '@angular/material/button'; // Importar MatButtonModule
-import { MatDatepickerModule } from '@angular/material/datepicker'; // Importar MatDatepickerModule
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core'; // Importar MatNativeDateModule
-import { MatFormFieldModule } from '@angular/material/form-field'; // Importar MatFormFieldModule
-import { MatInputModule } from '@angular/material/input'; // Importar MatInputModule
-import { MatSelectModule } from '@angular/material/select'; // Importar MatSelectModule
-import { MatIconModule } from '@angular/material/icon'; // Importar MatIconModule
-import { PaymentService } from '../../services/payment.service'; // Importar PaymentService
-import { Payment } from '../../models/payment'; // Importar Payment
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { FooterComponent } from "../footer/footer.component";
+import { PaymentService } from '../../services/payment.service';
+import { Payment } from '../../models/payment';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    FormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    RouterLink,
-    MatDialogModule,
-    FooterComponent
-],
+    FormsModule
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, // Configuração de localidade para datas
-    { provide: MAT_DATE_FORMATS, useValue: {
-      display: {
-        dateInput: 'DD/MM/YYYY',
-        monthYearLabel: 'MMM YYYY',
-        dateA11yLabel: 'DD/MM/YYYY',
-        monthYearA11yLabel: 'MMM YYYY',
-      },
-      parse: {
-        dateInput: 'DD/MM/YYYY',
-      },
-    }},
-    provideNativeDateAdapter()
-  ],
 })
 export class DashboardComponent implements OnInit {
-  initialDate : Date | null = new Date();
-  finalDate: Date | null = new Date();
-  selectedStatus: string | null = null;
-  selectedCategory: string | null = null;
-  selectedPaymentMethod: string | null = null;
 
-  statuses = [
-    { value: 'PENDING', label: 'Pendente' },
-    { value: 'APPROVED', label: 'Aprovado' },
-    { value: 'CANCELED', label: 'Cancelado' }
-  ];
-  categories = [
-    { value: 'LEISURE', label: 'Lazer' },
-    { value: 'STUDIES', label: 'Estudos' },
-    { value: 'FOOD', label: 'Alimentação' },
-    { value: 'HOUSING', label: 'Moradia' },
-    { value: 'TRANSPORT', label: 'Transporte' },
-    { value: 'TRIPS', label: 'Viagens' },
-    { value: 'HEALTH', label: 'Saúde' }
-  ];
-  paymentMethods = [
-    { value: 'MONEY', label: 'Dinheiro' },
-    { value: 'PIX', label: 'Pix' },
-    { value: 'DEBIT_CARD', label: 'Cartão de débito' },
-    { value: 'CRED_CARD', label: 'Cartão de crédito' }
-  ];
+  initialDate: string = this.formatDate(new Date());
+  finalDate: string = this.formatDate(new Date());
+
+  selectedStatus: string = 'Todos';
+  selectedCategory: string = 'Todos';
+  selectedPaymentMethod: string = 'Todos';
+
+  statuses = ['Todos', 'Pendente', 'Aprovado', 'Cancelado'];
+  categories = ['Todos', 'Lazer', 'Estudos', 'Alimentação', 'Moradia', 'Transporte', 'Viagens', 'Saúde'];
+  paymentMethods = ['Todos', 'Dinheiro', 'Pix', 'Cartão de débito', 'Cartão de crédito'];
+
+
+
+  allData: Payment[] = [];
   filteredData: Payment[] = [];
   totalAmount: number = 0;
 
-  constructor(private paymentService: PaymentService, private router: Router,  public dialog: MatDialog) {}
-
+  constructor(private paymentService: PaymentService, private router: Router, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.loadDefaultData();
   }
 
-  loadDefaultData() {
-    // Load data for today by default
-    this.initialDate = this.finalDate = new Date();
+  private loadDefaultData() {
+    const now = new Date();
+    this.initialDate = this.formatDate(new Date(now.setHours(0, 0, 0, 0)));
+    this.finalDate = this.formatDate(new Date(now.setHours(23, 59, 59, 999)));
     this.applyFilters();
   }
 
-  applyFilters() {
-    if (this.initialDate && this.finalDate) {
-      // Formatar as datas para YYYY-MM-DD
-      const formattedStartDate = this.formatDate(this.initialDate);
-      const formattedEndDate = this.formatDate(this.finalDate);
+  applyCategoryStatusPaymentFilters() {
+    let filtered = this.allData;
 
-      this.paymentService.findPeriod(formattedStartDate, formattedEndDate)
-        .subscribe(data => {
-          this.filteredData = data;
-          this.calculateTotalAmount();
-        });
+    // Aplique os filtros e verifique o resultado em cada etapa
+    if (this.selectedCategory !== 'Todos') {
+      filtered = filtered.filter(payment => {
+        const match = payment.category === this.selectedCategory;
+        return match;
+      });
     }
+
+    if (this.selectedStatus !== 'Todos') {
+      filtered = filtered.filter(payment => {
+        const match = payment.status === this.selectedStatus;
+        return match;
+      });
+    }
+
+    if (this.selectedPaymentMethod !== 'Todos') {
+      filtered = filtered.filter(payment => {
+        const match = payment.paymentMethod === this.selectedPaymentMethod;
+        return match;
+      });
+    }
+
+    // Atualize os dados filtrados e calcule o total
+    this.filteredData = filtered;
+    this.calculateTotalAmount();
   }
 
-  formatDate(date: Date): string {
+  applyFilters() {
+    const startDate = this.parseDate(this.initialDate);
+    const endDate = this.parseDate(this.finalDate);
+
+    if (!(startDate instanceof Date && !isNaN(startDate.getTime()) &&
+      endDate instanceof Date && !isNaN(endDate.getTime()))) {
+      console.error("initialDate ou finalDate não são objetos Date válidos.");
+      return;
+    }
+
+    endDate.setHours(23, 59, 59, 999);
+
+    const formattedStartDate = this.formatDate(startDate);
+    const formattedEndDate = this.formatDate(endDate);
+
+    this.paymentService.findPeriod(formattedStartDate, formattedEndDate)
+      .subscribe(data => {
+        this.allData = data;
+        this.applyCategoryStatusPaymentFilters();
+      });
+  }
+
+  onCategoryChange() {
+    this.applyCategoryStatusPaymentFilters();
+  }
+
+  onStatusChange() {
+    this.applyCategoryStatusPaymentFilters();
+  }
+
+  onPaymentMethodChange() {
+    this.applyCategoryStatusPaymentFilters();
+  }
+
+  // Adicionando o método para abrir o diálogo de criação
+  openCreatePaymentDialog(): void {
+    // Lógica para abrir um modal ou diálogo
+    const modalRef = this.modalService.open(CreatePaymentDialogComponent);
+    modalRef.result.then((result) => {
+      // Lógica para lidar com o resultado do modal
+    }).catch((error) => {
+      // Lógica para lidar com o erro do modal
+    });
+  }
+
+  confirmDelete(id: number): void {
+    const modalRef = this.modalService.open(ConfirmDialogComponent);
+    modalRef.result.then((result) => {
+      if (result === 'confirm') {
+        this.deletePayment(id);
+      }
+    }).catch((error) => {
+      // Lógica para lidar com o erro do modal
+    });
+  }
+
+  deletePayment(id: number): void {
+    this.paymentService.delete(id).subscribe(() => {
+      this.applyFilters();
+    });
+  }
+
+  private parseDate(dateString: string): Date {
+    const [year, month, day] = dateString.split('-').map(num => parseInt(num, 10));
+    return new Date(year, month - 1, day);
+  }
+
+  private formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
 
-  calculateTotalAmount() {
+  private calculateTotalAmount() {
     this.totalAmount = this.filteredData.reduce((total, payment) => total + payment.value, 0);
   }
 
-  redirectToCreate() {
-    this.router.navigate(['/create']); // Redireciona para a rota 'create'
-  }
-
   editPayment(id: number) {
-    this.router.navigate([`/edit/${id}`]); // Redireciona para a rota de edição do pagamento
+    this.router.navigate([`/edit/${id}`]);
   }
-  removePayment(id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.paymentService.delete(id).subscribe(() => {
-          this.filteredData = this.filteredData.filter(payment => payment.idPayment !== id);
-          this.calculateTotalAmount();
-        });
-      }
-    });
+  onDateChange() {
+    this.initialDate = (<HTMLInputElement>document.getElementById('startDate'))?.value || '';
+    this.finalDate = (<HTMLInputElement>document.getElementById('endDate'))?.value || '';
   }
 }

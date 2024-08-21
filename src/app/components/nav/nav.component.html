@@ -1,9 +1,15 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav mode="side" [opened]="isSidenavOpened">
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard"><p>Dashboard</p></a>
-      <a mat-list-item routerLink="/usuario"><p>Usuário</p></a>
-      <a mat-list-item (click)="logout()"><p>Logout</p></a>
+      <a mat-list-item routerLink="/dashboard">
+        <p>Dashboard</p>
+      </a>
+      <a mat-list-item routerLink="/usuario">
+        <p>Usuário</p>
+      </a>
+      <a mat-list-item (click)="logout()">
+        <p>Logout</p>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 

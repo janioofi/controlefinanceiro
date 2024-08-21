@@ -1,74 +1,85 @@
-<div class="main-container">
-  <!-- Filtros de Período e Valor Total -->
-  <div class="filters-container">
-    <div class="periodo">
-      <mat-form-field appearance="outline" color="primary" class="date-filter">
-        <mat-label>Data Início</mat-label>
-        <input matInput [matDatepicker]="startPicker" [(ngModel)]="initialDate" placeholder="DD/MM/YYYY">
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" color="primary" class="date-filter">
-        <mat-label>Data Final</mat-label>
-        <input matInput [matDatepicker]="endPicker" [(ngModel)]="finalDate" placeholder="DD/MM/YYYY">
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" class="btn" (click)="applyFilters()">Aplicar</button>
+<div class="container mt-4">
+  <!-- Header com filtros -->
+  <div class="row mb-3 align-items-center">
+    <!-- Filtro de período -->
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="startDate">Data Início</label>
+        <input type="date" id="startDate" class="form-control" [(ngModel)]="initialDate" (change)="onDateChange()" />
+      </div>
     </div>
-
-    <div class="total">
-      <span>Total: {{ totalAmount | currency }}</span>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="endDate">Data Fim</label>
+        <input type="date" id="endDate" class="form-control" [(ngModel)]="finalDate" (change)="onDateChange()" />
+      </div>
     </div>
-
-    <div class="additional-filters">
-      <mat-form-field appearance="outline" color="primary" class="small-filter">
-        <mat-label>Status</mat-label>
-        <mat-select [(ngModel)]="selectedStatus">
-          <mat-option *ngFor="let status of statuses" [value]="status.value">{{ status.label }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" color="primary" class="small-filter">
-        <mat-label>Categoria</mat-label>
-        <mat-select [(ngModel)]="selectedCategory">
-          <mat-option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" color="primary" class="small-filter">
-        <mat-label>Método</mat-label>
-        <mat-select [(ngModel)]="selectedPaymentMethod">
-          <mat-option *ngFor="let method of paymentMethods" [value]="method.value">{{ method.label }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <!-- Valor total -->
+    <div class="col-md-3 d-flex align-items-center">
+      <div class="total-amount">Total: {{ totalAmount | currency:'BRL' }}</div>
+    </div>
+    <!-- Botão para aplicar o período -->
+    <div class="col-md-3 d-flex align-items-center">
+      <button class="btn btn-primary w-100" (click)="applyFilters()">Aplicar Período</button>
     </div>
   </div>
 
-  <!-- Cards de Pagamentos -->
-  <div class="cards-container">
-    <div class="card add-card" routerLink="/create">
-      <mat-icon>add</mat-icon>
-      <span>Adicionar Pagamento</span>
+  <!-- Filtros adicionais -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="category">Categoria</label>
+        <select id="category" [(ngModel)]="selectedCategory" (change)="onCategoryChange()" class="form-control">
+          <option value="">Todos</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" [(ngModel)]="selectedStatus" (change)="onStatusChange()" class="form-control">
+          <option value="">Todos</option>
+          <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="paymentMethod">Método de Pagamento</label>
+        <select id="paymentMethod" [(ngModel)]="selectedPaymentMethod" (change)="onPaymentMethodChange()" class="form-control">
+          <option value="">Todos</option>
+          <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Corpo com os cards de pagamento -->
+  <div class="row">
+    <!-- Card para adicionar novo pagamento -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+      <div class="card add-payment-card text-center">
+        <div class="card-body">
+          <button class="btn btn-success" (click)="openCreatePaymentDialog()">
+            <i class="bi bi-plus-circle"></i> Adicionar Pagamento
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="card" *ngFor="let payment of filteredData">
-      <div class="card-content">
-        <div class="card-header">
-          <span>{{ payment.category }}</span>
-        </div>
-        <div class="card-body">
-          <p>Descrição: {{ payment.description }}</p>
-          <p>Valor: {{ payment.value | currency }}</p>
-          <p>Status: {{ payment.status }}</p>
-          <p>Data: {{ payment.paymentDate | date:'dd/MM/yyyy' }}</p>
-          <p>Método: {{ payment.paymentMethod }}</p>
-        </div>
-        <div class="card-actions">
-          <button mat-raised-button>Editar</button>
-          <button mat-raised-button color="warn" (click)="removePayment(payment.idPayment)">Excluir</button>
+    <!-- Cards de pagamento existentes -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3" *ngFor="let pagamento of filteredData">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ pagamento.description }}</h5>
+          <p class="card-text">Categoria: {{ pagamento.category }}</p>
+          <p class="card-text">Método: {{ pagamento.paymentMethod }}</p>
+          <p class="card-text">Data: {{ pagamento.paymentDate | date:'dd/MM/yyyy' }}</p>
+          <p class="card-text">Valor: {{ pagamento.value | currency:'BRL' }}</p>
+          <p class="card-text">Status: {{ pagamento.status }}</p>
+          <button class="btn btn-primary me-2" (click)="editPayment(pagamento.idPayment)">Editar</button>
+          <button class="btn btn-danger" (click)="confirmDelete(pagamento.idPayment)">Excluir</button>
         </div>
       </div>
     </div>
