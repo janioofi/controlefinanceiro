@@ -1,23 +1,31 @@
 .sidenav-container {
   height: 100vh;
+  display: flex;
 }
 
 mat-sidenav {
-  width: 12rem; /* Ajuste conforme necessário */
+  width: 12rem; /* Largura fixa do sidenav */
+  min-width: 12rem; /* Garante que o sidenav não encolherá */
   background-color: #262a41;
+  flex-shrink: 0; /* Evita que o sidenav se contraia */
+}
+
+mat-sidenav-content {
+  flex-grow: 1; /* O conteúdo crescerá para ocupar o espaço restante */
+  padding: 2rem;
 }
 
 mat-nav-list a {
   display: flex;
   align-items: center;
-  padding: 1rem; /* Espaçamento interno dos itens do menu */
+  padding: 1rem;
   color: white;
-  font-size: 1.1rem; /* Tamanho da fonte */
-  text-decoration: none; /* Remove o sublinhado dos links */
+  font-size: 1.1rem;
+  text-decoration: none;
 }
 
 mat-nav-list a:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Cor ao passar o mouse */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 p {
@@ -27,9 +35,8 @@ p {
   padding: 0;
 }
 
-p i{
-
-  margin-right: .6rem;
+p i {
+  margin-right: 0.6rem;
 }
 
 button mat-icon {

@@ -1,13 +1,13 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav mode="side" [opened]="isSidenavOpened">
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard">
+      <a mat-list-item routerLink="/dashboard" disableRipple >
         <p><i class="bi bi-house-door"></i> Dashboard</p>
       </a>
-      <a mat-list-item routerLink="/usuario">
+      <a mat-list-item routerLink="/usuario" disableRipple >
         <p><i class="bi bi-person"></i> Usuário</p>
       </a>
-      <a mat-list-item (click)="logout()">
+      <a mat-list-item (click)="logout()" disableRipple >
         <p><i class="bi bi-box-arrow-right"></i> Logout</p>
       </a>
     </mat-nav-list>
