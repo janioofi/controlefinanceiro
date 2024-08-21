@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CreatePaymentModalComponent } from '../create-payment-modal/create-payment-modal.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -58,11 +59,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private paymentService: PaymentService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private title:Title
   ) {}
 
   ngOnInit() {
     this.loadDefaultData();
+    this.title.setTitle("Dashboard");
   }
 
   private loadDefaultData() {

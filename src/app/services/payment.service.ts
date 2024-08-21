@@ -25,8 +25,8 @@ export class PaymentService {
     return this.http.get<Payment>(`${this.url}/${id}`);
   }
 
-  update(payment: Payment): Observable<Payment>{
-    return this.http.put<Payment>(`${ this.url }/${payment.idPayment}`, payment);
+  update(id: string, paymentData: any): Observable<Payment>{
+    return this.http.put<Payment>(`${ this.url }/${id}`, paymentData);
   }
 
   delete(id: any): Observable<Payment>{
