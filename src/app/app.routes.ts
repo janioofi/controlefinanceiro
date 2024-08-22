@@ -1,15 +1,14 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { NavComponent } from './components/nav/nav.component';
 
 export const routes: Routes = [
-  { path: 'login', loadComponent:() => import('./components/login/login.component').then((m) => m.LoginComponent)},
+  { path: 'login', loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent) },
   {
     path: '',
-    loadComponent:() => import('./components/nav/nav.component').then((m) => m.NavComponent),
-    canActivate: [AuthGuard], // Protege as rotas filhas
+    loadComponent: () => import('./components/nav/nav.component').then(m => m.NavComponent),
+    canActivate: [AuthGuard],
     children: [
-      { path: 'dashboard', loadComponent:() => import('./components/dashboard/dashboard.component').then((m) => m.DashboardComponent)},
+      { path: 'dashboard', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
     ],
   },
 ];
