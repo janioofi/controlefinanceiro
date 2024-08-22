@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h5 class="modal-title">Criar Conta</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="mb-3">
+      <label for="username" class="form-label">Nome de Usuário</label>
+      <input [formControl]="username" type="text" id="username" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Senha</label>
+      <input [formControl]="password" type="password" id="password" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirme a Senha</label>
+      <input [formControl]="confirmPassword" type="password" id="confirmPassword" class="form-control">
+    </div>
+    <button (click)="register()" [disabled]="!username.valid || !password.valid || !confirmPassword.valid" type="button" class="btn btn-primary">Registrar</button>
+  </form>
+</div>

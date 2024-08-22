@@ -1,21 +1,63 @@
+/* Estilo para os filtros */
+.filter-label {
+  font-weight: bold; /* Torna o texto mais grosso */
+}
+
+.form-control{
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-select {
+  font-weight: bold; /* Torna o texto mais grosso dentro dos selects */
+  font-size: 1rem; /* Ajuste o tamanho da fonte conforme necessário */
+}
+
+/* Estilo existente */
 .total-amount {
   font-size: 1.5rem; /* Ajuste o tamanho da fonte conforme necessário */
   font-weight: bold;
   margin: 1rem 0; /* Ajuste as margens conforme necessário */
   padding: 0.5rem;
-  border: 1px solid #ddd; /* Adiciona uma borda para destacar o campo */
   border-radius: 4px; /* Bordas arredondadas */
   max-width: 100%; /* Limita a largura máxima ao contêiner pai */
   white-space: nowrap; /* Impede a quebra de linha */
   text-align: right; /* Alinha o texto à direita */
+  background-color: rgba(0, 255, 255, 0.219);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilo para os botões */
+.btn {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra ao redor dos botões */
+}
+
+.btn-primary {
+  background-color: #007bff; /* Cor de fundo dos botões primários */
+  border: none; /* Remove a borda padrão */
+  color: #ffffff; /* Cor do texto dos botões */
+}
+
+/* Estilo para os cards */
 .card {
   margin-bottom: 1rem;
   max-width: 100%;
   width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra ao redor dos cards */
 }
 
+/* Estilo para o título do card */
+.card-title {
+  font-size: 1.25rem; /* Ajusta o tamanho da fonte conforme necessário */
+  font-weight: 700; /* Aumenta a grossura da fonte do título */
+}
+
+/* Estilo para o texto do card */
+.card-text {
+  font-size: 1rem; /* Ajusta o tamanho da fonte conforme necessário */
+  font-weight: 600; /* Aumenta a grossura da fonte do texto */
+}
+
+/* Estilo para o card de adicionar pagamento */
 .add-payment-card {
   cursor: pointer;
   border: 2px dashed #007bff; /* Estilo de borda para o card de adicionar */
@@ -23,6 +65,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra ao redor do card de adicionar */
 }
 
 .add-payment-card .card-body {

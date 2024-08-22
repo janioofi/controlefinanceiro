@@ -20,3 +20,8 @@ button{
   margin-top: 1rem;
 
 }
+
+a p{
+  color: orange;
+  cursor: pointer;
+}

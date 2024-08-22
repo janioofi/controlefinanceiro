@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Login } from '../models/login';
 import { API_CONFIG } from '../config/api.config';
+import { Register } from '../models/register';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class AuthService {
     });
   }
 
-  register(login: Login) {
-    return this.http.post(`${API_CONFIG.baseUrl}/register`, login, {
+  register(register: Register) {
+    return this.http.post(`${API_CONFIG.baseUrl}/register`, register, {
       observe: 'response',
       responseType: 'text'
     });

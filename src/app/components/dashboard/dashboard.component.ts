@@ -4,10 +4,12 @@ import { Payment } from '../../models/payment';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CreatePaymentModalComponent } from '../create-payment-modal/create-payment-modal.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Title } from '@angular/platform-browser';
+import { UpdatePaymentModalComponent } from '../update-payment-modal/update-payment-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +25,7 @@ import { Title } from '@angular/platform-browser';
 export class DashboardComponent implements OnInit {
 
   @ViewChild('addPaymentModal', { static: false }) addPaymentModal!: TemplateRef<any>;
+  @ViewChild('editPaymentModal', { static: false }) editPaymentModal!: TemplateRef<any>;
 
   initialDate: string = this.formatDate(new Date());
   finalDate: string = this.formatDate(new Date());
@@ -30,6 +33,16 @@ export class DashboardComponent implements OnInit {
   selectedStatus: string = 'Todos';
   selectedCategory: string = 'Todos';
   selectedPaymentMethod: string = 'Todos';
+
+  paymentToEdit: Payment = {
+    idPayment: 0,
+    description: '',
+    paymentDate: '',
+    value: 0,
+    category: '',
+    paymentMethod: '',
+    status: ''
+  };
 
   statuses = [
     { value: 'PENDING', label: 'Pendente' },
@@ -58,21 +71,14 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private paymentService: PaymentService,
-    private router: Router,
     private modalService: NgbModal,
-    private title:Title
+    private title:Title,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
     this.loadDefaultData();
     this.title.setTitle("Dashboard");
-  }
-
-  private loadDefaultData() {
-    const now = new Date();
-    this.initialDate = this.formatDate(new Date(now.setHours(0, 0, 0, 0)));
-    this.finalDate = this.formatDate(new Date(now.setHours(23, 59, 59, 999)));
-    this.applyFilters();
   }
 
   applyCategoryStatusPaymentFilters() {
@@ -136,9 +142,11 @@ export class DashboardComponent implements OnInit {
     modalRef.componentInstance.paymentMethods = this.paymentMethods;
     modalRef.componentInstance.statuses = this.statuses;
 
+    this.applyFilters();
     modalRef.result.then((result) => {
       if (result === 'save') {
         this.applyFilters();
+        this.toastr.success("Pagamento criado com sucesso!");
       }
       this.applyFilters();
     }).catch((error) => {
@@ -162,10 +170,33 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  openUpdatePaymentModal(paymentId: string) {
+    const modalRef = this.modalService.open(UpdatePaymentModalComponent);
+    modalRef.componentInstance.paymentId = paymentId;
+    modalRef.componentInstance.categories = this.categories;
+    modalRef.componentInstance.paymentMethods = this.paymentMethods;
+    modalRef.componentInstance.statuses = this.statuses;
+
+    modalRef.result.then((result) => {
+      if (result === 'save') {
+        this.applyFilters(); // Recarrega os dados após salvar
+        this.toastr.success("Pagamento atualizado com sucesso!");
+      }
+    }).catch((error) => {
+      this.applyFilters();
+    });
+  }
+
   deletePayment(paymentId: number) {
     this.paymentService.delete(paymentId).subscribe(() => {
       this.applyFilters();
     });
+  }
+
+  onDateChange() {
+    this.initialDate = (document.getElementById('startDate') as HTMLInputElement)?.value || '';
+    this.finalDate = (document.getElementById('endDate') as HTMLInputElement)?.value || '';
+    this.applyFilters(); // Reaplica os filtros ao alterar as datas
   }
 
   private parseDate(dateString: string): Date {
@@ -184,13 +215,10 @@ export class DashboardComponent implements OnInit {
     this.totalAmount = this.filteredData.reduce((total, payment) => total + payment.value, 0);
   }
 
-  editPayment(id: number) {
-    this.router.navigate([`/edit/${id}`]);
-  }
-
-  onDateChange() {
-    this.initialDate = (document.getElementById('startDate') as HTMLInputElement)?.value || '';
-    this.finalDate = (document.getElementById('endDate') as HTMLInputElement)?.value || '';
-    this.applyFilters(); // Reaplica os filtros ao alterar as datas
+  private loadDefaultData() {
+    const now = new Date();
+    this.initialDate = this.formatDate(new Date(now.setHours(0, 0, 0, 0)));
+    this.finalDate = this.formatDate(new Date(now.setHours(23, 59, 59, 999)));
+    this.applyFilters();
   }
 }

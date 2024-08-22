@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from '../../models/login';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,8 +11,8 @@ import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Location } from '@angular/common';
-
+import { RegisterModalComponent } from '../register-modal/register-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -29,66 +29,59 @@ import { Location } from '@angular/common';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  providers: [
-    {provide: ToastrService, useClass: ToastrService}
-  ]
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
 
-  login: Login = {
-    email: '',
-    password: '',
-  };
-
-  email = new FormControl(null, Validators.minLength(11));
-  password = new FormControl(null, Validators.minLength(4));
+  username = new FormControl('', [Validators.minLength(3), Validators.maxLength(50), Validators.required]);
+  password = new FormControl('', [Validators.minLength(3), Validators.maxLength(255), Validators.required]);
 
   constructor(
     private title: Title,
     private service: AuthService,
     private router: Router,
     private toastr: ToastrService,
-    private location: Location
-  ) {}
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit(): void {
-    this.title.setTitle("Login")
+    this.title.setTitle("Login");
   }
 
   logar() {
-    this.service.authenticate(this.login).subscribe(res => {
-      let token = JSON.parse(res.body).token
-      this.service.successFullLogin(token, this.login.email)
-      this.router.navigate(['']);
-    }, ((err) => {
-      console.log(err.status);
-      if (err.status === 403) {
-        this.toastr.error('Acesso expirado ou login incorreto');
-        this.service.logout();
-      }
-     })
-    );
+    if (this.username.valid && this.password.valid) {
+      const loginInfo: Login = {
+        username: this.username.value!,
+        password: this.password.value!,
+      };
+
+      this.service.authenticate(loginInfo).subscribe(res => {
+        let token = JSON.parse(res.body).token;
+        this.service.successFullLogin(token, loginInfo.username);
+        this.router.navigate(['']);
+      }, err => {
+        if (err.status === 403) {
+          this.toastr.error('Senha incorreta');
+          this.service.logout();
+        } else if (err.error.errors) {
+          err.error.errors.forEach(element => {
+            this.toastr.error(element.message);
+          })
+        }
+        else {
+          this.toastr.error(err.error);
+        }
+
+
+      });
+    }
   }
 
-  registrar() {
-    this.service.register(this.login).subscribe(res => { // Tipando a resposta como HttpResponse
-      this.toastr.success(res.body);
-    }, ((ex) => {
-      if(ex.error.errors){
-        ex.error.errors.forEach(element => {
-          this.toastr.error(element.message);
-        })
-      }else{
-        this.toastr.error(ex.error);
-      }
-     })
-    );
+  openRegisterModal() {
+    this.modalService.open(RegisterModalComponent);
   }
 
-  validaCampos(): boolean{
-    return this.email.valid && this.password.valid
+  validaCampos(): boolean {
+    return this.username.valid && this.password.valid;
   }
-
-
 }

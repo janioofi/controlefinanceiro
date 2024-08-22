@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <h4 class="modal-title">Atualizar Pagamento</h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="paymentForm" (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="description">Descrição</label>
+      <input type="text" id="description" formControlName="description" class="form-control" />
+      <div *ngIf="paymentForm.get('description')?.invalid && paymentForm.get('description')?.touched" class="text-danger">
+        A descrição é obrigatória.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="paymentDate">Data de Pagamento</label>
+      <input type="date" id="paymentDate" formControlName="paymentDate" class="form-control" />
+      <div *ngIf="paymentForm.get('paymentDate')?.invalid && paymentForm.get('paymentDate')?.touched" class="text-danger">
+        A data de pagamento é obrigatória.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="value">Valor</label>
+      <input type="number" id="value" formControlName="value" class="form-control" />
+      <div *ngIf="paymentForm.get('value')?.invalid && paymentForm.get('value')?.touched" class="text-danger">
+        O valor é obrigatório.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category">Categoria</label>
+      <select id="category" formControlName="category" class="form-control">
+        <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+      </select>
+      <div *ngIf="paymentForm.get('category')?.invalid && paymentForm.get('category')?.touched" class="text-danger">
+        A categoria é obrigatória.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="paymentMethod">Método de Pagamento</label>
+      <select id="paymentMethod" formControlName="paymentMethod" class="form-control">
+        <option *ngFor="let method of paymentMethods" [value]="method.value">{{ method.label }}</option>
+      </select>
+      <div *ngIf="paymentForm.get('paymentMethod')?.invalid && paymentForm.get('paymentMethod')?.touched" class="text-danger">
+        O método de pagamento é obrigatório.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status" class="form-control">
+        <option *ngFor="let statusOption of statuses" [value]="statusOption.value">{{ statusOption.label }}</option>
+      </select>
+      <div *ngIf="paymentForm.get('status')?.invalid && paymentForm.get('status')?.touched" class="text-danger">
+        O status é obrigatório.
+      </div>
+    </div>
+    <div class="modal-footer" aria-hidden="false">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('cancel')">Fechar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="paymentForm.invalid">Salvar</button>
+    </div>
+  </form>
+</div>

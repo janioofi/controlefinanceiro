@@ -8,23 +8,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
-/* styles.css ou no CSS do componente onde o diálogo é usado */
-.custom-dialog-container .mat-dialog-container {
-  padding: 1rem; /* Espaçamento interno do conteúdo do diálogo */
-  max-width: 90vw; /* Largura máxima do diálogo */
-  max-height: 90vh; /* Altura máxima do diálogo */
-  overflow: auto; /* Permite rolagem se necessário */
-}
-
-.custom-dialog-container .mat-dialog-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* Espaçamento entre os campos do formulário */
-}
-
-.custom-dialog-container .mat-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem; /* Espaçamento entre os botões */
+/* Cor de fundo para toda a página */
+/* Cor de fundo para toda a página */
+body {
+  background-color: #262a412d; /* Cor de fundo */
+  margin: 0;
+  padding: 0;
 }

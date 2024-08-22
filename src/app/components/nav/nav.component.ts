@@ -26,7 +26,7 @@ export class NavComponent implements OnInit{
 
   login: String = localStorage.getItem('email')
 
-  isSidenavOpened = true;
+  isSidenavOpened = false;
   toggleSidenav() {
     this.isSidenavOpened = !this.isSidenavOpened;
   }

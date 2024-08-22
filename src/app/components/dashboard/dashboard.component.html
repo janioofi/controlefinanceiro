@@ -4,13 +4,13 @@
     <!-- Filtro de período -->
     <div class="col-md-3">
       <div class="form-group">
-        <label for="startDate">Data Início</label>
+        <label for="startDate" class="filter-label">Data Início</label>
         <input type="date" id="startDate" class="form-control" [(ngModel)]="initialDate" (change)="onDateChange()" />
       </div>
     </div>
     <div class="col-md-3">
       <div class="form-group">
-        <label for="endDate">Data Final</label>
+        <label for="endDate" class="filter-label">Data Final</label>
         <input type="date" id="endDate" class="form-control" [(ngModel)]="finalDate" (change)="onDateChange()" />
       </div>
     </div>
@@ -18,17 +18,13 @@
     <div class="col-md-3 d-flex align-items-center">
       <div class="total-amount">Total: {{ totalAmount | currency:'BRL' }}</div>
     </div>
-    <!-- Botão para aplicar o período -->
-    <div class="col-md-3 d-flex align-items-center">
-      <button class="btn btn-primary w-100" (click)="applyFilters()">Aplicar Período</button>
-    </div>
   </div>
 
   <!-- Filtros adicionais -->
   <div class="row mb-3">
     <div class="col-md-4">
       <div class="form-group">
-        <label for="category">Categoria</label>
+        <label for="category" class="filter-label">Categoria</label>
         <select id="category" [(ngModel)]="selectedCategory" (change)="onCategoryChange()" class="form-control">
           <option value="Todos">Todos</option>
           <option *ngFor="let cat of categories" [value]="cat.label">{{ cat.label }}</option>
@@ -37,7 +33,7 @@
     </div>
     <div class="col-md-4">
       <div class="form-group">
-        <label for="status">Status</label>
+        <label for="status" class="filter-label">Status</label>
         <select id="status" [(ngModel)]="selectedStatus" (change)="onStatusChange()" class="form-control">
           <option value="Todos">Todos</option>
           <option *ngFor="let status of statuses" [value]="status.label">{{ status.label }}</option>
@@ -46,7 +42,7 @@
     </div>
     <div class="col-md-4">
       <div class="form-group">
-        <label for="paymentMethod">Método de Pagamento</label>
+        <label for="paymentMethod" class="filter-label">Método de Pagamento</label>
         <select id="paymentMethod" [(ngModel)]="selectedPaymentMethod" (change)="onPaymentMethodChange()" class="form-control">
           <option value="Todos">Todos</option>
           <option *ngFor="let method of paymentMethods" [value]="method.label">{{ method.label }}</option>
@@ -69,15 +65,15 @@
 
     <!-- Cards de pagamento existentes -->
     <div class="col-lg-3 col-md-4 col-sm-6 mb-3" *ngFor="let pagamento of filteredData">
-      <div class="card">
-        <div class="card-body text-center">
+      <div class="card" aria-hidden="false">
+        <div class="card-body text-center" aria-hidden="false">
           <h5 class="card-title">{{ pagamento.description }}</h5>
           <p class="card-text">Categoria: {{ pagamento.category }}</p>
           <p class="card-text">Método: {{ pagamento.paymentMethod }}</p>
           <p class="card-text">Data: {{ pagamento.paymentDate | date:'dd/MM/yyyy' }}</p>
           <p class="card-text">Valor: {{ pagamento.value | currency:'BRL' }}</p>
           <p class="card-text">Status: {{ pagamento.status }}</p>
-          <button class="btn btn-primary me-2" (click)="editPayment(pagamento.idPayment)">Editar</button>
+          <button class="btn btn-primary me-2" (click)="openUpdatePaymentModal(pagamento.idPayment)">Editar</button>
           <button class="btn btn-danger" (click)="openConfirmDialog(pagamento.idPayment)">Excluir</button>
         </div>
       </div>
