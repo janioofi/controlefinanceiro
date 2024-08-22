@@ -31,7 +31,9 @@ export class UpdatePaymentModalComponent implements OnInit {
     { value: 'HOUSING', label: 'Moradia' },
     { value: 'TRANSPORT', label: 'Transporte' },
     { value: 'TRIPS', label: 'Viagens' },
-    { value: 'HEALTH', label: 'Saúde' }
+    { value: 'HEALTH', label: 'Saúde' },
+    { value: 'PERSONAL_EXPENSES', label: 'Despesas Pessoais"' },
+    { value: 'CELLPHONE_TV_INTERNET', label: 'Celular/TV/Internet' }
   ];
   paymentMethods = [
     { value: 'MONEY', label: 'Dinheiro' },
