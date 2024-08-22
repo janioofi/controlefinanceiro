@@ -137,12 +137,12 @@ export class DashboardComponent implements OnInit {
   }
 
   openCreatePaymentModal() {
+    this.applyFilters();
     const modalRef = this.modalService.open(CreatePaymentModalComponent);
     modalRef.componentInstance.categories = this.categories;
     modalRef.componentInstance.paymentMethods = this.paymentMethods;
     modalRef.componentInstance.statuses = this.statuses;
 
-    this.applyFilters();
     modalRef.result.then((result) => {
       if (result === 'save') {
         this.applyFilters();

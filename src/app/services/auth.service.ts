@@ -30,7 +30,7 @@ export class AuthService {
 
   successFullLogin(authToken: string, login: string){
     localStorage.setItem('token', authToken)
-    localStorage.setItem('email', login)
+    localStorage.setItem('username', login)
   }
 
   isAuthenticated(){

@@ -58,7 +58,7 @@
       <div class="card add-payment-card" (click)="openCreatePaymentModal()">
         <div class="card-body text-center">
           <h5 class="card-title"><i class="bi bi-plus-circle"></i></h5>
-          <p class="card-text">Adicionar Novo Pagamento</p>
+          <p class="card-text" (click)="applyFilters()">Adicionar Novo Pagamento</p>
         </div>
       </div>
     </div>
@@ -73,8 +73,8 @@
           <p class="card-text">Data: {{ pagamento.paymentDate | date:'dd/MM/yyyy' }}</p>
           <p class="card-text">Valor: {{ pagamento.value | currency:'BRL' }}</p>
           <p class="card-text">Status: {{ pagamento.status }}</p>
-          <button class="btn btn-primary me-2" (click)="openUpdatePaymentModal(pagamento.idPayment)">Editar</button>
-          <button class="btn btn-danger" (click)="openConfirmDialog(pagamento.idPayment)">Excluir</button>
+          <button class="btn btn-primary me-2" (click)="openUpdatePaymentModal(pagamento.idPayment)" (click)="applyFilters()">Editar</button>
+          <button class="btn btn-danger" (click)="openConfirmDialog(pagamento.idPayment)" (click)="applyFilters()">Excluir</button>
         </div>
       </div>
     </div>

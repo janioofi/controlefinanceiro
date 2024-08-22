@@ -1,21 +1,31 @@
+<!-- create-account-modal.component.html -->
 <div class="modal-header">
   <h5 class="modal-title">Criar Conta</h5>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
-  <form>
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
     <div class="mb-3">
       <label for="username" class="form-label">Nome de Usuário</label>
-      <input [formControl]="username" type="text" id="username" class="form-control">
+      <input formControlName="username" type="text" id="username" class="form-control">
+      <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-danger">
+        O nome de usuário é obrigatório.
+      </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Senha</label>
-      <input [formControl]="password" type="password" id="password" class="form-control">
+      <input formControlName="password" type="password" id="password" class="form-control">
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
+        A senha é obrigatória.
+      </div>
     </div>
     <div class="mb-3">
       <label for="confirmPassword" class="form-label">Confirme a Senha</label>
-      <input [formControl]="confirmPassword" type="password" id="confirmPassword" class="form-control">
+      <input formControlName="confirmPassword" type="password" id="confirmPassword" class="form-control">
+      <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" class="text-danger">
+        As senhas não coincidem.
+      </div>
     </div>
-    <button (click)="register()" [disabled]="!username.valid || !password.valid || !confirmPassword.valid" type="button" class="btn btn-primary">Registrar</button>
+    <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Registrar</button>
   </form>
 </div>
