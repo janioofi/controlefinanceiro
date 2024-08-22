@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['']);
       }, err => {
         if (err.status === 403) {
-          this.toastr.error('Senha incorreta');
+          this.toastr.error('Login incorreto');
           this.service.logout();
         } else if (err.error.errors) {
           err.error.errors.forEach(element => {

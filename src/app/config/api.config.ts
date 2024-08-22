@@ -1,3 +1,3 @@
 export const API_CONFIG = {
-	baseUrl: "http://localhost:8080/api"
+	baseUrl: "https://cotrolefinanceiro.up.railway.app/api"
 }

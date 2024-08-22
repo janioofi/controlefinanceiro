@@ -152,6 +152,7 @@ export class DashboardComponent implements OnInit {
     }).catch((error) => {
       this.applyFilters();
     });
+    this.applyFilters();
   }
 
   openConfirmDialog(paymentId: number) {

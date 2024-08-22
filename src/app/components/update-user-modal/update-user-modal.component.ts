@@ -67,4 +67,15 @@ export class UpdateUserModalComponent implements OnInit {
       });
     }
   }
+
+  deleteUser() {
+    if (confirm('Tem certeza de que deseja excluir este usuário?')) {
+      this.userService.delete(this.user.idUser).subscribe(() => {
+        this.toastr.success("Usuário excluído com sucesso");
+        this.activeModal.close('delete');
+      }, ex => {
+        this.toastr.error("Erro ao excluir usuário");
+      });
+    }
+  }
 }

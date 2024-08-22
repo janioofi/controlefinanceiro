@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './create-payment-modal.component.css'
 })
 export class CreatePaymentModalComponent {
-  @Input() modalRef!: NgbModalRef;
   @ViewChild('content', { static: true }) content!: TemplateRef<any>;
 
 
@@ -35,15 +34,14 @@ export class CreatePaymentModalComponent {
   @Input() categories: { value: string, label: string }[] = [];
   @Input() paymentMethods: { value: string, label: string }[] = [];
 
-  constructor(private paymentService: PaymentService, public modal: NgbActiveModal, private modalService: NgbModal) { }
+  constructor(private paymentService: PaymentService, public modal: NgbActiveModal) { }
 
   ngOnInit() {
   }
 
   savePayment(paymentForm: any) {
     this.paymentService.create(this.newPayment).subscribe(() => {
-      this.modalRef.dismiss('save');
+      this.modal.close('save');
     });
-    this.modalService.dismissAll();
   }
 }
