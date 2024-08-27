@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
   }
 
   logar() {
+    this.service.logout();
     if (this.username.valid && this.password.valid) {
       const loginInfo: Login = {
         username: this.username.value!,
